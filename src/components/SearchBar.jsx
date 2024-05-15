@@ -4,15 +4,18 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { GlobalContext } from "../context/GlobalContext";
 
 function SearchBar() {
-  const { users, setUsers } = useContext(GlobalContext);
+  const { users, setUsers, selectedRows, setSelectedRows } =
+    useContext(GlobalContext);
 
   const handleDelete = () => {
     const isConfirmed = window.confirm(
       "Are you sure you want to delete selected users?"
     );
     if (isConfirmed) {
-      const newUsers = users.filter((user) => !user.selected);
-
+      //selectedrowsdaki rowları users statinden kaldırıcaz
+      const newUsers = users.filter(
+        (user) => !selectedRows.find((row) => row.id === user.id)
+      );
       setUsers(newUsers);
     }
   };
@@ -23,8 +26,11 @@ function SearchBar() {
         <SearchIcon style={{ width: "30px", height: "30px" }} />
         <input type="text" placeholder="Search" className="outline-none" />
       </div>
-      <button className="text-[#82888C]" onClick={handleDelete}>
-        {" "}
+      <button
+        disabled={selectedRows.length === 0 || users.length === 0}
+        className="text-[#82888C] disabled:cursor-not-allowed"
+        onClick={handleDelete}
+      >
         <DeleteIcon style={{ width: "30px", height: "30px" }} /> Delete{" "}
       </button>
     </div>

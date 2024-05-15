@@ -13,14 +13,20 @@ import Box from "@mui/material/Box";
 import { GlobalContext } from "../context/GlobalContext";
 
 export default function DataTable() {
-  const { users, setUsers, setIsModalOpen, setIsEditing, setEditingUser } =
-    useContext(GlobalContext);
+  const {
+    users,
+    setUsers,
+    setIsModalOpen,
+    setIsEditing,
+    setEditingUser,
+    setSelectedRows,
+    selectedRows,
+  } = useContext(GlobalContext);
   const [selectAll, setSelectAll] = useState(false);
-  const [selectedRows, setSelectedRows] = useState([]);
 
   const handleSelectAllClick = () => {
     if (!selectAll) {
-      const newSelectedRows = users.map((row) => row.name);
+      const newSelectedRows = users.map((row) => row);
       setSelectedRows(newSelectedRows);
     } else {
       setSelectedRows([]);
@@ -28,14 +34,18 @@ export default function DataTable() {
     setSelectAll(!selectAll);
   };
 
-  const isSelected = (name) => selectedRows.indexOf(name) !== -1;
+  const isSelected = (id) =>
+    selectedRows.findIndex((row) => row.id === id) !== -1;
 
-  const handleClick = (event, name) => {
-    const selectedIndex = selectedRows.indexOf(name);
+  const handleClick = (event, id) => {
+    const selectedIndex = selectedRows.findIndex((row) => row.id === id);
     let newSelectedRows = [];
 
     if (selectedIndex === -1) {
-      newSelectedRows = newSelectedRows.concat(selectedRows, name);
+      newSelectedRows = newSelectedRows.concat(
+        selectedRows,
+        users.find((row) => row.id === id)
+      );
     } else if (selectedIndex === 0) {
       newSelectedRows = newSelectedRows.concat(selectedRows.slice(1));
     } else if (selectedIndex === selectedRows.length - 1) {
@@ -54,8 +64,6 @@ export default function DataTable() {
     setIsEditing(true);
     setEditingUser(users.find((user) => user.id === id));
     setIsModalOpen(true);
-
-    //usersa bak eğer idsi eşleşen bir user varsa onu modaldaki unputlarda göster ben değiştirip yeni verilerini göndereyim diğer userları şse oldupu gibi dönder
   };
 
   const handleDeleteClick = (id) => {
@@ -155,18 +163,18 @@ export default function DataTable() {
         <TableBody>
           {users.map((row) => (
             <TableRow
-              key={row.name}
+              key={row.id}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               hover
               role="checkbox"
-              aria-checked={isSelected(row.name)}
-              selected={isSelected(row.name)}
+              aria-checked={isSelected(row.id)}
+              selected={isSelected(row.id)}
             >
               <TableCell padding="checkbox">
                 <Checkbox
-                  checked={isSelected(row.name)}
-                  onClick={(event) => handleClick(event, row.name)}
-                  inputProps={{ "aria-labelledby": `checkbox-${row.name}` }}
+                  checked={isSelected(row.id)}
+                  onClick={(event) => handleClick(event, row.id)}
+                  inputProps={{ "aria-labelledby": `checkbox-${row.id}` }}
                 />
               </TableCell>
               <TableCell>
