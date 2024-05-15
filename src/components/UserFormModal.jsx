@@ -107,6 +107,12 @@ export default function UserFormModal() {
       setEmail(editingUser.email);
       setRole(editingUser.role);
       setSelectedAvatar(editingUser.avatar);
+    } else {
+      setName("");
+      setUsername("");
+      setEmail("");
+      setRole("");
+      setSelectedAvatar(null);
     }
   }, [isEditing, editingUser]);
   return (
