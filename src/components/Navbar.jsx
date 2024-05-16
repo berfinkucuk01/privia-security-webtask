@@ -1,5 +1,4 @@
 import NavbarIcon from "../assets/Frame 3153.svg";
-
 import { useContext } from "react";
 import UserFormModal from "./UserFormModal";
 import { GlobalContext } from "../context/GlobalContext";

@@ -9,6 +9,7 @@ function GlobalProvider({ children }) {
   const [editingUser, setEditingUser] = useState("");
   const [selectedRows, setSelectedRows] = useState([]);
   const [activeTab, setActiveTab] = useState("All Users");
+  const [searchValue, setSearchValue] = useState("");
 
   return (
     <GlobalContext.Provider
@@ -25,6 +26,8 @@ function GlobalProvider({ children }) {
         setSelectedRows,
         activeTab,
         setActiveTab,
+        searchValue,
+        setSearchValue,
       }}
     >
       {children}

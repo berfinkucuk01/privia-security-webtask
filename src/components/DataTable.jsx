@@ -22,6 +22,7 @@ export default function DataTable() {
     setSelectedRows,
     selectedRows,
     activeTab,
+    searchValue,
   } = useContext(GlobalContext);
   const [selectAll, setSelectAll] = useState(false);
 
@@ -165,6 +166,11 @@ export default function DataTable() {
           {users
             .filter(
               (user) => user.role === activeTab || activeTab === "All Users"
+            )
+            .filter(
+              (user) =>
+                user.email.toLowerCase().includes(searchValue.toLowerCase()) ||
+                user.username.toLowerCase().includes(searchValue.toLowerCase())
             )
             .map((row) => (
               <TableRow
