@@ -8,6 +8,8 @@ function GlobalProvider({ children }) {
   const [isEditing, setIsEditing] = useState(false);
   const [editingUser, setEditingUser] = useState("");
   const [selectedRows, setSelectedRows] = useState([]);
+  const [activeTab, setActiveTab] = useState("All Users");
+
   return (
     <GlobalContext.Provider
       value={{
@@ -21,6 +23,8 @@ function GlobalProvider({ children }) {
         setEditingUser,
         selectedRows,
         setSelectedRows,
+        activeTab,
+        setActiveTab,
       }}
     >
       {children}

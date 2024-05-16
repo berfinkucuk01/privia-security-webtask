@@ -1,15 +1,11 @@
 import NavbarIcon from "../assets/Frame 3153.svg";
 
-import { useState } from "react";
+import { useContext } from "react";
 import UserFormModal from "./UserFormModal";
+import { GlobalContext } from "../context/GlobalContext";
 
 function Navbar() {
-  const [activeTab, setActiveTab] = useState("All Users");
-
-  const handleTabClick = (tabName) => {
-    setActiveTab(tabName);
-    //duruma gore listelenme de burada yapılacak ...
-  };
+  const { setActiveTab, activeTab } = useContext(GlobalContext);
 
   return (
     <nav className="flex justify-between items-center p-5 border-b-[3px] border-stone-300">
@@ -19,7 +15,7 @@ function Navbar() {
           className={`border-b-[3px] ${
             activeTab === "All Users" ? "border-buttonBlue text-buttonBlue" : ""
           } cursor-pointer`}
-          onClick={() => handleTabClick("All Users")}
+          onClick={() => setActiveTab("All Users")}
         >
           All Users
         </li>
@@ -29,7 +25,7 @@ function Navbar() {
               ? "border-buttonBlue text-buttonBlue"
               : ""
           } cursor-pointer `}
-          onClick={() => handleTabClick("Contributor")}
+          onClick={() => setActiveTab("Contributor")}
         >
           Contributor
         </li>
@@ -37,7 +33,7 @@ function Navbar() {
           className={`border-b-[3px] ${
             activeTab === "Author" ? "border-buttonBlue text-buttonBlue" : ""
           } cursor-pointer `}
-          onClick={() => handleTabClick("Author")}
+          onClick={() => setActiveTab("Author")}
         >
           Author
         </li>
@@ -47,7 +43,7 @@ function Navbar() {
               ? "border-buttonBlue text-buttonBlue"
               : ""
           } cursor-pointer `}
-          onClick={() => handleTabClick("Administrator")}
+          onClick={() => setActiveTab("Administrator")}
         >
           Administrator
         </li>
@@ -57,7 +53,7 @@ function Navbar() {
               ? "border-buttonBlue text-buttonBlue"
               : ""
           } cursor-pointer `}
-          onClick={() => handleTabClick("Subscriber")}
+          onClick={() => setActiveTab("Subscriber")}
         >
           Subscriber
         </li>

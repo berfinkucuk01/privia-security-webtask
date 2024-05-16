@@ -4,15 +4,13 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { GlobalContext } from "../context/GlobalContext";
 
 function SearchBar() {
-  const { users, setUsers, selectedRows, setSelectedRows } =
-    useContext(GlobalContext);
+  const { users, setUsers, selectedRows } = useContext(GlobalContext);
 
   const handleDelete = () => {
     const isConfirmed = window.confirm(
       "Are you sure you want to delete selected users?"
     );
     if (isConfirmed) {
-      //selectedrowsdaki rowları users statinden kaldırıcaz
       const newUsers = users.filter(
         (user) => !selectedRows.find((row) => row.id === user.id)
       );

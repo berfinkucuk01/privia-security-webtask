@@ -57,7 +57,7 @@ export default function UserFormModal() {
     e.preventDefault();
     if (!name || !username || !email || !role || !selectedAvatar)
       return alert("Please fill all fields");
-    //edit moddu acıksa editUserı değiştir geri kalanı aynı kalsın.  değilse yeni kullanıcı ekleme yap
+
     if (isEditing) {
       const updatedUser = {
         id: editingUser.id,
@@ -181,10 +181,10 @@ export default function UserFormModal() {
                 onChange={(e) => setRole(e.target.value)}
                 style={{ border: "none", width: "100%" }}
               >
-                <MenuItem value={"contributor"}>Contributor</MenuItem>
-                <MenuItem value={"subscriber"}>Subscriber</MenuItem>
-                <MenuItem value={"author"}>Author</MenuItem>
-                <MenuItem value={"administrator"}>Administrator</MenuItem>
+                <MenuItem value={"Contributor"}>Contributor</MenuItem>
+                <MenuItem value={"Subscriber"}>Subscriber</MenuItem>
+                <MenuItem value={"Author"}>Author</MenuItem>
+                <MenuItem value={"Administrator"}>Administrator</MenuItem>
               </Select>
             </FormControl>
           </div>
@@ -247,7 +247,7 @@ export default function UserFormModal() {
           <div className="justify-center flex items-center mt-6 -mb-3">
             <button
               onClick={handleCreateUser}
-              className="  bg-buttonBlue text-white px-3 py-3 rounded-[4px] font-medium text-sm flex "
+              className="bg-buttonBlue text-white px-3 py-3 rounded-[4px] font-medium text-sm flex "
             >
               Add New User
             </button>

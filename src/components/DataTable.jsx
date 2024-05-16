@@ -21,6 +21,7 @@ export default function DataTable() {
     setEditingUser,
     setSelectedRows,
     selectedRows,
+    activeTab,
   } = useContext(GlobalContext);
   const [selectAll, setSelectAll] = useState(false);
 
@@ -161,78 +162,82 @@ export default function DataTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {users.map((row) => (
-            <TableRow
-              key={row.id}
-              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              hover
-              role="checkbox"
-              aria-checked={isSelected(row.id)}
-              selected={isSelected(row.id)}
-            >
-              <TableCell padding="checkbox">
-                <Checkbox
-                  checked={isSelected(row.id)}
-                  onClick={(event) => handleClick(event, row.id)}
-                  inputProps={{ "aria-labelledby": `checkbox-${row.id}` }}
-                />
-              </TableCell>
-              <TableCell>
-                <img
-                  className="rounded-md size-14"
-                  src={row.avatar}
-                  alt="avatar"
-                />
-              </TableCell>
-              <TableCell
-                style={{
-                  color: "#3A3C40",
-                  fontSize: "15px",
-                  fontWeight: "600",
-                }}
+          {users
+            .filter(
+              (user) => user.role === activeTab || activeTab === "All Users"
+            )
+            .map((row) => (
+              <TableRow
+                key={row.id}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                hover
+                role="checkbox"
+                aria-checked={isSelected(row.id)}
+                selected={isSelected(row.id)}
               >
-                {row.name}
-              </TableCell>
-              <TableCell
-                style={{
-                  color: "#3A3C40",
-                  fontSize: "15px",
-                  fontWeight: "500",
-                }}
-              >
-                {row.username}
-              </TableCell>
-              <TableCell
-                style={{
-                  color: "#3A3C40",
-                  fontSize: "15px",
-                  fontWeight: "500",
-                }}
-              >
-                {row.email}
-              </TableCell>
-              <TableCell
-                style={{
-                  color: "#3A3C40",
-                  fontSize: "15px",
-                  fontWeight: "500",
-                }}
-                className="text-red-500"
-              >
-                {row.role}
-              </TableCell>
-              <TableCell>
-                <Box>
-                  <button onClick={() => handleEditClick(row.id)}>
-                    <EditIcon className="w-8 h-8 text-primary mr-3 cursor-pointer" />
-                  </button>
-                  <button onClick={() => handleDeleteClick(row.id)}>
-                    <DeleteIcon className="w-8 h-8 text-primary cursor-pointer" />
-                  </button>
-                </Box>
-              </TableCell>
-            </TableRow>
-          ))}
+                <TableCell padding="checkbox">
+                  <Checkbox
+                    checked={isSelected(row.id)}
+                    onClick={(event) => handleClick(event, row.id)}
+                    inputProps={{ "aria-labelledby": `checkbox-${row.id}` }}
+                  />
+                </TableCell>
+                <TableCell>
+                  <img
+                    className="rounded-md size-14"
+                    src={row.avatar}
+                    alt="avatar"
+                  />
+                </TableCell>
+                <TableCell
+                  style={{
+                    color: "#3A3C40",
+                    fontSize: "15px",
+                    fontWeight: "600",
+                  }}
+                >
+                  {row.name}
+                </TableCell>
+                <TableCell
+                  style={{
+                    color: "#3A3C40",
+                    fontSize: "15px",
+                    fontWeight: "500",
+                  }}
+                >
+                  {row.username}
+                </TableCell>
+                <TableCell
+                  style={{
+                    color: "#3A3C40",
+                    fontSize: "15px",
+                    fontWeight: "500",
+                  }}
+                >
+                  {row.email}
+                </TableCell>
+                <TableCell
+                  style={{
+                    color: "#3A3C40",
+                    fontSize: "15px",
+                    fontWeight: "500",
+                  }}
+                  className="text-red-500"
+                >
+                  {row.role}
+                </TableCell>
+                <TableCell>
+                  <Box>
+                    <button onClick={() => handleEditClick(row.id)}>
+                      <EditIcon className="w-8 h-8 text-primary mr-3 cursor-pointer" />
+                    </button>
+                    <button onClick={() => handleDeleteClick(row.id)}>
+                      <DeleteIcon className="w-8 h-8 text-primary cursor-pointer" />
+                    </button>
+                  </Box>
+                </TableCell>
+              </TableRow>
+            ))}
         </TableBody>
       </Table>
     </TableContainer>
