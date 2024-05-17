@@ -2,6 +2,7 @@ import { useContext } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { GlobalContext } from "../context/GlobalContext";
+import { deleteMultipleUsersApi, getUsersApi } from "../services/api";
 
 function SearchBar() {
   const {
@@ -13,15 +14,15 @@ function SearchBar() {
     setSelectedRows,
   } = useContext(GlobalContext);
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     const isConfirmed = window.confirm(
       "Are you sure you want to delete selected users?"
     );
     if (isConfirmed) {
-      const newUsers = users.filter(
-        (user) => !selectedRows.find((row) => row.id === user.id)
-      );
-      setUsers(newUsers);
+      await deleteMultipleUsersApi(selectedRows)
+        .then(() => getUsersApi())
+        .then((data) => setUsers(data));
+
       setSelectedRows([]);
     }
   };

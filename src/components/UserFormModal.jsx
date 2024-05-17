@@ -13,7 +13,7 @@ import AvatarImage4 from "../assets/Avatar4.svg";
 import AvatarImage5 from "../assets/Avatar5.svg";
 import AvatarImage6 from "../assets/Avatar6.svg";
 import { GlobalContext } from "../context/GlobalContext";
-import { v4 as uuidv4 } from "uuid";
+import { addUserApi, getUsersApi, updateUserApi } from "../services/api";
 
 const style = {
   position: "absolute",
@@ -30,7 +30,6 @@ const style = {
 
 export default function UserFormModal() {
   const {
-    users,
     setUsers,
     isModalOpen,
     setIsModalOpen,
@@ -53,7 +52,7 @@ export default function UserFormModal() {
   };
   const [isSelectOpen, setIsSelectOpen] = useState(false);
 
-  const handleCreateUser = (e) => {
+  const handleCreateUser = async (e) => {
     e.preventDefault();
     if (!name || !username || !email || !role || !selectedAvatar)
       return alert("Please fill all fields");
@@ -67,22 +66,25 @@ export default function UserFormModal() {
         role,
         avatar: selectedAvatar,
       };
-      const updatedUsers = users.map((user) =>
-        user.id === editingUser.id ? updatedUser : user
-      );
-      setUsers(updatedUsers);
+
+      await updateUserApi(updatedUser)
+        .then(() => getUsersApi())
+        .then((data) => setUsers(data));
+
       handleClose();
       return;
     }
     const newUser = {
-      id: uuidv4(),
       name,
       username,
       email,
       role,
       avatar: selectedAvatar,
     };
-    setUsers([...users, newUser]);
+    await addUserApi(newUser).then(() =>
+      getUsersApi().then((data) => setUsers(data))
+    );
+
     setName("");
     setUsername("");
     setEmail("");
@@ -249,7 +251,7 @@ export default function UserFormModal() {
               onClick={handleCreateUser}
               className="bg-buttonBlue text-white px-3 py-3 rounded-[4px] font-medium text-sm flex "
             >
-              Add New User
+              {isEditing ? "Edit User" : "Add New User"}
             </button>
           </div>
         </Box>

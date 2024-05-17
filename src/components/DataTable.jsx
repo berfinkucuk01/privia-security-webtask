@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -12,6 +12,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Box from "@mui/material/Box";
 import { GlobalContext } from "../context/GlobalContext";
 import Pagination from "@mui/material/Pagination";
+import { deleteUserApi, getUsersApi } from "../services/api";
 
 export default function DataTable() {
   const {
@@ -27,6 +28,14 @@ export default function DataTable() {
   } = useContext(GlobalContext);
   const [selectAll, setSelectAll] = useState(false);
   const [page, setPage] = useState(1);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const data = await getUsersApi();
+      setUsers(data);
+    };
+    fetchUsers();
+  }, []);
   const pageSize = 10;
 
   function getPageData(data, pageNumber, pageSize) {
@@ -81,8 +90,9 @@ export default function DataTable() {
       "Are you sure you want to delete this user?"
     );
     if (isConfirmed) {
-      const newUsers = users.filter((user) => user.id !== id);
-      setUsers(newUsers);
+      deleteUserApi(id).then(() =>
+        getUsersApi().then((data) => setUsers(data))
+      );
     }
   };
 
