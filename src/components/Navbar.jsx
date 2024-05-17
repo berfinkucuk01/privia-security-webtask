@@ -2,17 +2,15 @@ import NavbarIcon from "../assets/Frame 3153.svg";
 import { useContext } from "react";
 import UserFormModal from "./UserFormModal";
 import { GlobalContext } from "../context/GlobalContext";
-
+const MAP_TABS_BORDER = {
+  "All Users": { width: "60px", pos: "500px" },
+  Contributor: { width: "70px", pos: "600px" },
+  Author: { width: "46px", pos: "710px" },
+  Administrator: { width: "90px", pos: "795px" },
+  Subscriber: { width: "65px", pos: "925px" },
+};
 function Navbar() {
   const { setActiveTab, activeTab } = useContext(GlobalContext);
-
-  const MAP_TABS_BORDER = {
-    "All Users": { width: "60", pos: "500" },
-    Contributor: { width: "70", pos: "600" },
-    Author: { width: "60", pos: "700" },
-    Administrator: { width: "70", pos: "800" },
-    Subscriber: { width: "70", pos: "920" },
-  };
 
   return (
     <nav className="flex justify-between items-center p-5  relative">
@@ -27,7 +25,7 @@ function Navbar() {
           All Users
         </li>
         <li
-          className={` ${
+          className={`  ${
             activeTab === "Contributor" ? " text-buttonBlue" : ""
           } cursor-pointer `}
           onClick={() => setActiveTab("Contributor")}
@@ -59,9 +57,19 @@ function Navbar() {
           Subscriber
         </li>
       </ul>
-
       <div
-        className={` bg-stone-300 w-screen h-[3px] left-0 absolute bottom-0 before:absolute before:w-[${MAP_TABS_BORDER[activeTab].width}px] before:h-[3px] before:left-[${MAP_TABS_BORDER[activeTab]?.pos}px] before:bg-buttonBlue`}
+        className={`bg-stone-300 w-screen h-[3px] right-0 absolute bottom-0 transition-all duration-500`}
+      ></div>
+      <div
+        style={{
+          width: MAP_TABS_BORDER[activeTab].width,
+          height: "3px",
+          backgroundColor: "#2940D3",
+          position: "absolute",
+          bottom: "0",
+          left: MAP_TABS_BORDER[activeTab].pos,
+          transition: "all 0.5s",
+        }}
       ></div>
       <UserFormModal />
     </nav>

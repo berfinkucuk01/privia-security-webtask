@@ -33,17 +33,17 @@ function SearchBar() {
         <input
           type="text"
           placeholder="Search"
-          className="outline-none"
+          className="outline-none font-semibold"
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
         />
       </div>
       <button
         disabled={selectedRows.length === 0 || users.length === 0}
-        className="text-[#82888C] disabled:cursor-not-allowed"
+        className="text-[#82888C] disabled:cursor-not-allowed font-semibold mr-1"
         onClick={handleDelete}
       >
-        <DeleteIcon style={{ width: "30px", height: "30px" }} /> Delete{" "}
+        <DeleteIcon style={{ width: "30px", height: "30px" }} /> Delete
       </button>
     </div>
   );

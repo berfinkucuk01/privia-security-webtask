@@ -90,9 +90,13 @@ export default function DataTable() {
     <>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table" className="">
+          {/* tablo sütunları ilk sütun sola dayalı son sütun sağa dayalı olacak şekilde */}
           <TableHead className="bg-[#F5F5F7]">
             <TableRow>
-              <TableCell padding="checkbox" style={{ width: "1px" }}>
+              <TableCell
+                padding="checkbox"
+                style={{ width: "1px", paddingRight: "16px" }}
+              >
                 <Checkbox
                   indeterminate={
                     selectAll && selectedRows.length < users.length
@@ -105,11 +109,11 @@ export default function DataTable() {
               <TableCell
                 style={{
                   align: "left",
+                  paddingRight: "32px",
                   color: "#3A3C40",
                   fontSize: "15px",
                   fontWeight: "600",
                   lineHeight: "14.63px",
-                  display: "inline-block",
                 }}
               >
                 Avatar
@@ -117,6 +121,7 @@ export default function DataTable() {
               <TableCell
                 style={{
                   align: "left",
+                  paddingRight: "32px",
                   color: "#3A3C40",
                   fontSize: "15px",
                   fontWeight: "600",
@@ -128,6 +133,7 @@ export default function DataTable() {
               <TableCell
                 style={{
                   align: "left",
+                  paddingRight: "32px",
                   color: "#3A3C40",
                   fontSize: "15px",
                   fontWeight: "600",
@@ -139,6 +145,7 @@ export default function DataTable() {
               <TableCell
                 style={{
                   align: "left",
+                  paddingRight: "32px",
                   color: "#3A3C40",
                   fontSize: "15px",
                   fontWeight: "600",
@@ -150,6 +157,7 @@ export default function DataTable() {
               <TableCell
                 style={{
                   align: "left",
+                  paddingRight: "32px",
                   color: "#3A3C40",
                   fontSize: "15px",
                   fontWeight: "600",
@@ -160,11 +168,12 @@ export default function DataTable() {
               </TableCell>
               <TableCell
                 style={{
+                  textAlign: "right",
+                  paddingRight: "32px",
                   color: "#3A3C40",
                   fontSize: "15px",
                   fontWeight: "600",
                   lineHeight: "14.63px",
-                  width: "0",
                 }}
               >
                 Edit
@@ -203,7 +212,7 @@ export default function DataTable() {
                       }}
                     />
                   </TableCell>
-                  <TableCell className="w-20">
+                  <TableCell>
                     <img
                       className="rounded-md size-14"
                       src={row.avatar}
@@ -215,7 +224,7 @@ export default function DataTable() {
                       color: "#3A3C40",
                       fontSize: "15px",
                       fontWeight: "600",
-                      width: "200px",
+                      textAlign: "left", // Added textAlign property
                     }}
                   >
                     {row.name}
@@ -225,7 +234,7 @@ export default function DataTable() {
                       color: "#3A3C40",
                       fontSize: "15px",
                       fontWeight: "500",
-                      width: "200px",
+                      textAlign: "left", // Added textAlign property
                     }}
                   >
                     {row.username}
@@ -235,7 +244,7 @@ export default function DataTable() {
                       color: "#3A3C40",
                       fontSize: "15px",
                       fontWeight: "500",
-                      width: "200px",
+                      textAlign: "left", // Added textAlign property
                     }}
                   >
                     {row.email}
@@ -245,23 +254,19 @@ export default function DataTable() {
                       color: "#3A3C40",
                       fontSize: "15px",
                       fontWeight: "500",
-                      width: "150px",
+                      textAlign: "left", // Added textAlign property
                     }}
                     className="text-red-500"
                   >
                     {row.role}
                   </TableCell>
-                  <TableCell
-                    style={{
-                      width: "0px",
-                    }}
-                  >
+                  <TableCell style={{ textAlign: "right" }}>
                     <Box>
                       <button onClick={() => handleEditClick(row.id)}>
-                        <EditIcon className=" h-8 text-primary mr-3 cursor-pointer" />
+                        <EditIcon className="w-8 h-8 text-primary mr-3 cursor-pointer" />
                       </button>
                       <button onClick={() => handleDeleteClick(row.id)}>
-                        <DeleteIcon className=" h-8 text-primary cursor-pointer" />
+                        <DeleteIcon className="w-8 h-8 text-primary cursor-pointer" />
                       </button>
                     </Box>
                   </TableCell>
@@ -271,28 +276,11 @@ export default function DataTable() {
         </Table>
       </TableContainer>
       <Pagination
-        className="mt-5 flex justify-center rounded-[4px]"
+        className="mt-5 flex justify-center  rounded-[4px]"
         count={5}
         shape="rounded"
         page={page}
         onChange={(event, value) => setPage(value)}
-        sx={{
-          "& .MuiPaginationItem-root": {
-            color: "#ccd",
-            fontSize: "14px",
-            fontWeight: "600",
-            lineHeight: "14.63px",
-            borderRadius: "4px",
-            marginRight: "4px",
-            "&.Mui-selected": {
-              backgroundColor: "#2940D3",
-              color: "#FFFFFF",
-            },
-            "&:hover": {
-              backgroundColor: "#F5F5F7",
-            },
-          },
-        }}
       />
     </>
   );
