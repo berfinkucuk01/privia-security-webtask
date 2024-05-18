@@ -35,16 +35,19 @@ export default function DataTable() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        getUsersApi().then((data) => {
-          setUsers(data);
-          getPageData(users, pageNumber, 10);
-        });
+        const data = await getUsersApi();
+        setUsers(data);
+        getPageData(data, pageNumber, 10);
       } catch (error) {
         console.error("Error fetching users:", error);
       }
     };
     fetchUsers();
-  }, [users]);
+  }, [pageNumber]);
+
+  useEffect(() => {
+    getPageData(users, pageNumber, 10);
+  }, [users, pageNumber]);
 
   const handleSelectAllClick = () => {
     if (!selectAll) {
