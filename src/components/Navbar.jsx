@@ -3,11 +3,11 @@ import { useContext } from "react";
 import UserFormModal from "./UserFormModal";
 import { GlobalContext } from "../context/GlobalContext";
 const MAP_TABS_BORDER = {
-  "All Users": { width: "60px", pos: "500px" },
-  Contributor: { width: "70px", pos: "600px" },
-  Author: { width: "46px", pos: "710px" },
-  Administrator: { width: "90px", pos: "795px" },
-  Subscriber: { width: "65px", pos: "925px" },
+  "All Users": { width: "35px", pos: "505px" },
+  Contributor: { width: "40px", pos: "616px" },
+  Author: { width: "35px", pos: "715px" },
+  Administrator: { width: "45px", pos: "815px" },
+  Subscriber: { width: "45px", pos: "935px" },
 };
 function Navbar() {
   const { setActiveTab, activeTab } = useContext(GlobalContext);

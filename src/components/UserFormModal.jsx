@@ -251,7 +251,7 @@ export default function UserFormModal() {
               onClick={handleCreateUser}
               className="bg-buttonBlue text-white px-3 py-3 rounded-[4px] font-medium text-sm flex "
             >
-              {isEditing ? "Edit User" : "Add New User"}
+              {isEditing ? "Edit User" : "Create User"}
             </button>
           </div>
         </Box>

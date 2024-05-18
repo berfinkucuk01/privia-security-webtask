@@ -12,16 +12,26 @@ function SearchBar() {
     searchValue,
     setSearchValue,
     setSelectedRows,
+    isloading,
+    setIsLoading,
+    pageNumber,
+    getPageData,
   } = useContext(GlobalContext);
 
-  const handleDelete = async () => {
+  const handleDeleteMultiple = async () => {
     const isConfirmed = window.confirm(
       "Are you sure you want to delete selected users?"
     );
     if (isConfirmed) {
+      setIsLoading(true);
+
       await deleteMultipleUsersApi(selectedRows)
         .then(() => getUsersApi())
-        .then((data) => setUsers(data));
+        .then((data) => {
+          setUsers(data);
+          getPageData(users, pageNumber, 10);
+          setIsLoading(false);
+        });
 
       setSelectedRows([]);
     }
@@ -40,9 +50,9 @@ function SearchBar() {
         />
       </div>
       <button
-        disabled={selectedRows.length === 0 || users.length === 0}
+        disabled={selectedRows.length === 0 || users.length === 0 || isloading}
         className="text-[#82888C] disabled:cursor-not-allowed font-semibold mr-1"
-        onClick={handleDelete}
+        onClick={handleDeleteMultiple}
       >
         <DeleteIcon style={{ width: "30px", height: "30px" }} /> Delete
       </button>

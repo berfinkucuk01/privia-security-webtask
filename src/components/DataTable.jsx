@@ -25,30 +25,40 @@ export default function DataTable() {
     selectedRows,
     activeTab,
     searchValue,
+    setIsLoading,
+    getPageData,
+    pageNumber,
+    currentPageData,
+    setPageNumber,
   } = useContext(GlobalContext);
   const [selectAll, setSelectAll] = useState(false);
-  const [page, setPage] = useState(1);
 
   useEffect(() => {
     const fetchUsers = async () => {
-      const data = await getUsersApi();
-      setUsers(data);
+      try {
+        setIsLoading(true);
+        getUsersApi().then((data) => {
+          setUsers(data);
+          getPageData(users, pageNumber, 10);
+        });
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      } finally {
+        setIsLoading(false);
+      }
     };
     fetchUsers();
-  }, []);
-  const pageSize = 10;
-
-  function getPageData(data, pageNumber, pageSize) {
-    const startIndex = (pageNumber - 1) * pageSize;
-    return data.slice(startIndex, startIndex + pageSize);
-  }
+  }, [users]);
 
   const handleSelectAllClick = () => {
     if (!selectAll) {
-      const newSelectedRows = users.map((row) => row);
-      setSelectedRows(newSelectedRows);
+      setSelectedRows(currentPageData);
     } else {
-      setSelectedRows([]);
+      const currentPageIds = currentPageData.map((row) => row.id);
+      const newSelectedRows = selectedRows.filter(
+        (row) => !currentPageIds.includes(row.id)
+      );
+      setSelectedRows(newSelectedRows);
     }
     setSelectAll(!selectAll);
   };
@@ -56,24 +66,15 @@ export default function DataTable() {
   const isSelected = (id) =>
     selectedRows.findIndex((row) => row.id === id) !== -1;
 
-  const handleClick = (event, id) => {
+  const handleSelect = (event, id) => {
     const selectedIndex = selectedRows.findIndex((row) => row.id === id);
+
     let newSelectedRows = [];
 
     if (selectedIndex === -1) {
-      newSelectedRows = newSelectedRows.concat(
-        selectedRows,
-        users.find((row) => row.id === id)
-      );
-    } else if (selectedIndex === 0) {
-      newSelectedRows = newSelectedRows.concat(selectedRows.slice(1));
-    } else if (selectedIndex === selectedRows.length - 1) {
-      newSelectedRows = newSelectedRows.concat(selectedRows.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelectedRows = newSelectedRows.concat(
-        selectedRows.slice(0, selectedIndex),
-        selectedRows.slice(selectedIndex + 1)
-      );
+      newSelectedRows = [...selectedRows, users.find((row) => row.id === id)];
+    } else {
+      newSelectedRows = selectedRows.filter((row) => row.id !== id);
     }
 
     setSelectedRows(newSelectedRows);
@@ -181,8 +182,9 @@ export default function DataTable() {
               </TableCell>
             </TableRow>
           </TableHead>
+
           <TableBody>
-            {getPageData(users, page, pageSize)
+            {currentPageData
               .filter(
                 (user) => user.role === activeTab || activeTab === "All Users"
               )
@@ -207,7 +209,7 @@ export default function DataTable() {
                   <TableCell padding="checkbox">
                     <Checkbox
                       checked={isSelected(row.id)}
-                      onClick={(event) => handleClick(event, row.id)}
+                      onClick={(event) => handleSelect(event, row.id)}
                       inputProps={{
                         "aria-labelledby": `checkbox-${row.id}`,
                       }}
@@ -282,10 +284,10 @@ export default function DataTable() {
       </TableContainer>
       <Pagination
         className="mt-5 flex justify-center rounded-[4px]"
-        count={5}
+        count={Math.ceil(users.length / 10)}
         shape="rounded"
-        page={page}
-        onChange={(event, value) => setPage(value)}
+        page={pageNumber}
+        onChange={(event, value) => setPageNumber(value)}
         sx={{
           "& .MuiPaginationItem-root": {
             color: "#ccd",
