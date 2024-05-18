@@ -6,12 +6,12 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import AvatarImage1 from "../assets/Avatar1.svg";
-import AvatarImage2 from "../assets/Avatar2.svg";
-import AvatarImage3 from "../assets/Avatar3.svg";
-import AvatarImage4 from "../assets/Avatar4.svg";
-import AvatarImage5 from "../assets/Avatar5.svg";
-import AvatarImage6 from "../assets/Avatar6.svg";
+import AvatarImage1 from "../assets/Avatar1.jpg";
+import AvatarImage2 from "../assets/Avatar2.jpg";
+import AvatarImage3 from "../assets/Avatar3.jpg";
+import AvatarImage4 from "../assets/Avatar4.jpg";
+import AvatarImage5 from "../assets/Avatar5.jpg";
+import AvatarImage6 from "../assets/Avatar6.jpg";
 import { GlobalContext } from "../context/GlobalContext";
 import { addUserApi, getUsersApi, updateUserApi } from "../services/api";
 
