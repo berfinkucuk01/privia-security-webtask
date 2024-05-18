@@ -25,7 +25,6 @@ export default function DataTable() {
     selectedRows,
     activeTab,
     searchValue,
-    setIsLoading,
     getPageData,
     pageNumber,
     currentPageData,
@@ -36,15 +35,12 @@ export default function DataTable() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        setIsLoading(true);
         getUsersApi().then((data) => {
           setUsers(data);
           getPageData(users, pageNumber, 10);
         });
       } catch (error) {
         console.error("Error fetching users:", error);
-      } finally {
-        setIsLoading(false);
       }
     };
     fetchUsers();
